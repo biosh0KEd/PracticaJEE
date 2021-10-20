@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+    <h:head>
+        <title>CocoManager</title>
+    </h:head>
+    <h:body>
+        <h:form>   
+            <p:menubar>
+                <p:menuitem>
+                    <h:graphicImage value = "/IMG/logo.png" width="50" height="50" />  
+                </p:menuitem>
+                <p:menuitem value="Nuevos Proyectos" action="#{UserView.changetotenProjects()}"/>
+                <p:submenu label="Categorías">
+                    <p:menuitem value="Página Web" action="#{administrator.openCat(1)}" />
+                    <p:menuitem value="Aplicación Movil" action="#{administrator.openCat(2)}" />
+                    <p:menuitem value="Página Web Progresiva" action="#{administrator.openCat(3)}" />
+                    <p:menuitem value="Juego" action="#{administrator.openCat(4)}" />
+                    <p:menuitem value="Aplicación de escritorio" action="#{administrator.openCat(5)}" />
+                    <p:menuitem value="Múltiples Tecnologías" action="#{administrator.openCat(6)}" />
+                    <p:menuitem value="Otros" action="#{administrator.openCat(7)}" />
+                </p:submenu>
+                <p:menuitem value="Todos los Proyectos" action="#{UserView.changetoAllProjects()}"/>  
+                 <p:submenu label="#{UserView.user.usuario}" >
+                    <p:submenu label="Configuración">
+                        <p:menuitem value="Cambiar Nombre" action="#{UserView.changetoCN()}" />
+                        <p:menuitem value="Cambiar Contraseña" action="#{UserView.changetoCP()}" />
+                    </p:submenu>
+                     <p:menuitem value="Agregar Proyecto" action="#{UserView.changetoNP()}" rendered="#{UserView.user.autorizacion and crearProyectoU.EvaluarCrearProyectos(UserView.user)}"/>
+                     <p:menuitem value="Editar Proyectos" action="#{UserView.changetoMisP()}" />
+                    <p:separator />
+                    <p:menuitem value="Administrar" action="#{UserView.changetoAdmin()}" rendered="#{UserView.user.tipoDeUsuario == true}" />
+                    <p:separator rendered="#{UserView.user.tipoDeUsuario == true}"/>          
+                    <p:menuitem value="Cerrar Sesión" action="#{UserView.changetoInicio()}" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <pre></pre>
+        <h:form>
+            <p:dataTable var="proyect" value="#{proyectoView.diezProyectos()}">
+                <p:column headerText="Nombre de proyecto" filterBy="#{proyect.nombre}" filterMatchMode="contains">
+                    <h:outputText value="#{proyect.nombre}" />
+                </p:column>
+                <p:column headerText="Configuración">
+                    <h:commandButton action="#{UserView.ver(proyect.idProyecto)}" value="Ver"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

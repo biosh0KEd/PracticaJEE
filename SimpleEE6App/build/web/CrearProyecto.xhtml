@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Crear Proyecto</title>
+    </h:head>
+    <h:body>
+                <h:form>   
+            <p:menubar>
+                <p:menuitem>
+                   <h:graphicImage value = "/IMG/logo.png" width="50" height="50" /> 
+                </p:menuitem>
+                <p:menuitem value="Nuevos Proyectos" action="#{UserView.changetotenProjects()}"/>
+                <p:submenu label="Categorías">
+                    <p:menuitem value="Página Web" action="#{administrator.openCat(1)}" />
+                    <p:menuitem value="Aplicación Movil" action="#{administrator.openCat(2)}" />
+                    <p:menuitem value="Página Web Progresiva" action="#{administrator.openCat(3)}" />
+                    <p:menuitem value="Juego" action="#{administrator.openCat(4)}" />
+                    <p:menuitem value="Aplicación de escritorio" action="#{administrator.openCat(5)}" />
+                    <p:menuitem value="Múltiples Tecnologías" action="#{administrator.openCat(6)}" />
+                    <p:menuitem value="Otros" action="#{administrator.openCat(7)}" />
+                </p:submenu>
+                <p:menuitem value="Todos los Proyectos" action="#{UserView.changetoAllProjects()}"/>  
+                 <p:submenu label="#{UserView.user.usuario}" >
+                    <p:submenu label="Configuración">
+                        <p:menuitem value="Cambiar Nombre" action="#{UserView.changetoCN()}" />
+                        <p:menuitem value="Cambiar Contraseña" action="#{UserView.changetoCP()}" />
+                    </p:submenu>
+                     <p:menuitem value="Agregar Proyecto" action="#{UserView.changetoNP()}" rendered="#{UserView.user.autorizacion and crearProyectoU.EvaluarCrearProyectos(UserView.user)}"/>
+                     <p:menuitem value="Editar Proyectos" action="#{UserView.changetoMisP()}" />
+                    <p:separator />
+                    <p:menuitem value="Administrar" action="#{UserView.changetoAdmin()}" rendered="#{UserView.user.tipoDeUsuario == true}" />
+                    <p:separator rendered="#{UserView.user.tipoDeUsuario == true}"/>          
+                    <p:menuitem value="Cerrar Sesión" action="#{UserView.changetoInicio()}" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <pre></pre>
+        <h:form>
+            <p:panel header="Crear un Proyecto" style="width:1200px">
+                <h:outputLabel value="Nombre: "/><br/><h:inputText value="#{crearProyectoU.nuevoProyecto.nombre}" required="true"/>
+                <br/>
+                <h:outputLabel value="Descripcion: "/><br/><h:inputText value="#{crearProyectoU.nuevoProyecto.descripcion}" required="true"/>
+                <br/>
+                <h:outputLabel value="Objetivos: "/><br/><h:inputTextarea value="#{crearProyectoU.nuevoProyecto.objetivos}" required="true"/>
+                <br/>
+                <h:outputLabel value="Fecha: "/><br/>
+                <h:inputText value="#{crearProyectoU.nuevoProyecto.fecha}" required="true">  
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>  
+                </h:inputText>
+                <br/>
+                <h:outputLabel value="Enlace Requerimientos: "/><br/><h:inputText value="#{crearProyectoU.nuevoProyecto.enlaceReq}" required="true"/>
+                <br/>
+                <h:outputLabel value="Enlace Reporte: "/><br/><h:inputText value="#{crearProyectoU.nuevoProyecto.enlaceRepT}" required="true" />
+                <br/>
+                <h:outputLabel value="Enlace Codigo Fuente: "/><br/><h:inputText value="#{crearProyectoU.nuevoProyecto.enlaceCF}" required="true" />
+                <br/>
+                <h:outputLabel value="Enlace instalador: "/><br/><h:inputText value="#{crearProyectoU.nuevoProyecto.enlaceInst}" required="true" />
+                <br/>
+                <h:outputLabel value="Estado: "/><br/><h:inputText value="#{crearProyectoU.nuevoProyecto.estado}" required="true" />
+                <br/><br/>
+                <h:outputText value="Categoria:"/>
+                <br/>
+                <c:forEach var="categoria" items="#{administrator.obtenerTodasCategorias()}">
+                    <h:outputText value="#{categoria.idCategoria} "/>
+                    <h:outputText value=" #{categoria.nombreCat}"/>
+                    <br/>
+                </c:forEach> 
+                <br/>
+                <h:outputLabel value="Ingresar el numero de la categoria: "/><br/><h:inputText value="#{crearProyectoU.CDelProyecto.idCategoria}" required="true" />
+                <br/>
+                <br/>
+                <h:commandButton action="#{crearProyectoU.CrearProyecto(UserView.user)}" value="Crear"/> 
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
